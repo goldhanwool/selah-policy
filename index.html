@@ -90,6 +90,31 @@
     }
     .hero-meta span strong { color: #ffffffaa; font-weight: 500; }
 
+    /* History button */
+    .history-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 24px;
+      padding: 8px 18px;
+      background: #ffffff14;
+      border: 1px solid #ffffff33;
+      border-radius: 100px;
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: .04em;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .history-btn:hover {
+      background: #ffffff22;
+      border-color: #ffffff55;
+    }
+    .history-btn svg { width: 13px; height: 13px; }
+
     /* Layout */
     .container {
       max-width: 720px;
@@ -176,6 +201,18 @@
       font-weight: 300;
     }
     .section p + p { margin-top: 12px; }
+    .section ul {
+      margin-top: 12px;
+      padding-left: 20px;
+      color: var(--ink-soft);
+      font-weight: 300;
+    }
+    .section ul li {
+      font-size: 15px;
+      line-height: 1.8;
+      margin-bottom: 4px;
+    }
+    .section ul li::marker { color: var(--accent); }
 
     hr.rule {
       border: none;
@@ -222,6 +259,261 @@
       border-top: 1px solid var(--border);
     }
     footer strong { color: var(--ink-soft); }
+
+    /* ─────────── Modal: History List ─────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(26, 22, 17, 0.5);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 100;
+      opacity: 0;
+      transition: opacity .25s ease;
+    }
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+    .modal {
+      background: var(--surface);
+      border-radius: 16px;
+      max-width: 560px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      transform: translateY(20px);
+      transition: transform .3s ease;
+    }
+    .modal-overlay.active .modal { transform: translateY(0); }
+
+    .modal-large {
+      max-width: 720px;
+    }
+
+    .modal-header {
+      padding: 28px 32px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      background: var(--surface);
+      z-index: 1;
+      border-radius: 16px 16px 0 0;
+    }
+    .modal-header-text {
+      flex: 1;
+    }
+    .modal-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 6px;
+    }
+    .modal-header h2 {
+      font-family: 'Lora', serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    .modal-close {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--ink-soft);
+      transition: all .2s;
+      flex-shrink: 0;
+    }
+    .modal-close:hover {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+    .modal-close svg { width: 16px; height: 16px; }
+
+    .modal-body {
+      padding: 24px 32px 32px;
+    }
+
+    /* History list items */
+    .version-list {
+      list-style: none;
+    }
+    .version-item {
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .version-item:hover {
+      border-color: var(--accent);
+      background: var(--accent-light);
+      transform: translateX(2px);
+    }
+    .version-item:last-child { margin-bottom: 0; }
+    .version-info {
+      flex: 1;
+    }
+    .version-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .08em;
+      color: var(--accent);
+      background: var(--accent-light);
+      border-radius: 6px;
+      padding: 3px 8px;
+      margin-bottom: 8px;
+    }
+    .version-item:hover .version-tag {
+      background: #fff;
+    }
+    .version-item.current .version-tag {
+      background: var(--ink);
+      color: #fff;
+    }
+    .version-item.current:hover .version-tag {
+      background: var(--ink);
+      color: #fff;
+    }
+    .version-title {
+      font-family: 'Lora', serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .version-date {
+      font-size: 12px;
+      color: var(--ink-muted);
+      letter-spacing: .04em;
+    }
+    .version-arrow {
+      color: var(--ink-muted);
+      transition: transform .2s, color .2s;
+    }
+    .version-item:hover .version-arrow {
+      color: var(--accent);
+      transform: translateX(2px);
+    }
+    .version-arrow svg { width: 18px; height: 18px; }
+
+    /* Archived version content rendering */
+    .archive-meta {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .archive-meta-item {
+      font-size: 12px;
+      color: var(--ink-muted);
+      letter-spacing: .04em;
+    }
+    .archive-meta-item strong {
+      color: var(--ink-soft);
+      font-weight: 500;
+      display: block;
+      margin-bottom: 2px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .archive-section {
+      margin-bottom: 32px;
+    }
+    .archive-section:last-child { margin-bottom: 0; }
+    .archive-section-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .archive-section-num {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: .08em;
+      color: var(--accent);
+      background: var(--accent-light);
+      border-radius: 6px;
+      padding: 3px 8px;
+      margin-top: 3px;
+      white-space: nowrap;
+    }
+    .archive-section h3 {
+      font-family: 'Lora', serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+    .archive-section p {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--ink-soft);
+      font-weight: 300;
+    }
+    .archive-section p + p { margin-top: 10px; }
+
+    .archive-notice {
+      background: #fff8e1;
+      border: 1px solid #f0d878;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 24px;
+      font-size: 13px;
+      color: #6b5a1f;
+      line-height: 1.6;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .archive-notice svg {
+      width: 16px;
+      height: 16px;
+      margin-top: 2px;
+      flex-shrink: 0;
+      stroke: #b8941f;
+    }
+
+    /* Scrollbar styling for modal */
+    .modal::-webkit-scrollbar { width: 8px; }
+    .modal::-webkit-scrollbar-track { background: transparent; }
+    .modal::-webkit-scrollbar-thumb {
+      background: var(--rule);
+      border-radius: 8px;
+    }
+    .modal::-webkit-scrollbar-thumb:hover { background: var(--ink-muted); }
+
+    /* Body scroll lock when modal open */
+    body.modal-open { overflow: hidden; }
   </style>
 </head>
 <body>
@@ -234,10 +526,18 @@
   <h1>Privacy <em>Policy</em></h1>
   <p>Selah Bible · Scripture Memorization App</p>
   <div class="hero-meta">
-    <span><strong>Effective</strong> March 20, 2026</span>
-    <span><strong>Last updated</strong> March 20, 2026</span>
-    <span><strong>Version</strong> 1.0</span>
+    <span><strong>Effective</strong> May 9, 2026</span>
+    <span><strong>Last updated</strong> May 9, 2026</span>
+    <span><strong>Version</strong> 1.1</span>
   </div>
+  <button class="history-btn" onclick="openHistory()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+      <path d="M3 3v5h5"/>
+      <path d="M12 7v5l4 2"/>
+    </svg>
+    Version History
+  </button>
 </div>
 
 <div class="container">
@@ -247,11 +547,14 @@
     <ol>
       <li><a href="#s1">Data Storage</a></li>
       <li><a href="#s2">Data Backup</a></li>
-      <li><a href="#s3">Analytics</a></li>
+      <li><a href="#s3">Analytics &amp; Diagnostics</a></li>
       <li><a href="#s4">Notifications</a></li>
       <li><a href="#s5">Bible Content</a></li>
-      <li><a href="#s6">Disclaimer</a></li>
-      <li><a href="#s7">Contact</a></li>
+      <li><a href="#s6">Data Deletion</a></li>
+      <li><a href="#s7">Children's Privacy</a></li>
+      <li><a href="#s8">Disclaimer</a></li>
+      <li><a href="#s9">Changes to This Policy</a></li>
+      <li><a href="#s10">Contact</a></li>
     </ol>
   </div>
 
@@ -260,7 +563,7 @@
       <span class="section-num">01</span>
       <h2>Data Storage</h2>
     </div>
-    <p>All your collections, memorization progress, and settings are stored locally on your device using SQLite. We do not have access to this data, and it is never transmitted to our servers.</p>
+    <p>All your collections, memorization progress, and personal settings are stored locally on your device using SQLite. We do not have access to this data, and it is never transmitted to our servers.</p>
   </div>
   <hr class="rule" />
 
@@ -276,10 +579,18 @@
   <div class="section" id="s3">
     <div class="section-header">
       <span class="section-num">03</span>
-      <h2>Analytics</h2>
+      <h2>Analytics &amp; Diagnostics</h2>
     </div>
-    <p>We collect minimal anonymous usage data to improve the app. This includes a hashed device identifier, platform information, and aggregated learning activity summaries.</p>
-    <p>This data is fully anonymized and cannot be used to identify you personally. It is used solely for improving app performance and features.</p>
+    <p>We collect minimal anonymous usage data to improve the app. This includes:</p>
+    <ul>
+      <li>A hashed device identifier (cannot be reversed to identify you personally)</li>
+      <li>Platform and OS version information</li>
+      <li>App version, locale, and timezone</li>
+      <li>Aggregated learning activity summaries (e.g., collection creation, verse additions)</li>
+      <li>Crash reports and diagnostic logs for app stability</li>
+    </ul>
+    <p>This data is fully anonymized and cannot be used to identify you personally. It is used solely for improving app performance, fixing bugs, and enhancing features. We do not share this data with any third parties for advertising or marketing purposes.</p>
+    <p>All data is transmitted over a secure HTTPS connection. Server-side anonymous logs are retained for up to 12 months and then automatically deleted.</p>
   </div>
   <hr class="rule" />
 
@@ -289,7 +600,7 @@
       <h2>Notifications</h2>
     </div>
     <p>If you choose to enable push notifications, a push token is stored on our server solely for the purpose of sending you study reminders. This token is not linked to any personal information.</p>
-    <p>You can disable notifications at any time through your device Settings or within the app.</p>
+    <p>You can disable notifications at any time through your device Settings or within the app. Once disabled, the associated push token is no longer used to deliver notifications.</p>
   </div>
   <hr class="rule" />
 
@@ -305,15 +616,49 @@
   <div class="section" id="s6">
     <div class="section-header">
       <span class="section-num">06</span>
-      <h2>Disclaimer</h2>
+      <h2>Data Deletion</h2>
     </div>
-    <p>Selah is provided "as is" without warranty of any kind, express or implied. We are not responsible for any loss of data or damages arising from the use of this app.</p>
+    <p>You can request deletion of all data associated with your device through the following methods:</p>
+    <ul>
+      <li><strong>Uninstall the app</strong> — this immediately deletes all locally stored data on your device.</li>
+      <li><strong>Disable notifications</strong> — this stops the active use of your push token.</li>
+      <li><strong>Email request</strong> — to delete server-stored anonymous logs and your push token, contact us at <a href="mailto:sophianas170707@gmail.com" style="color: var(--accent); text-decoration: none;">sophianas170707@gmail.com</a>. We will process the deletion request within 30 days.</li>
+    </ul>
+    <p>Since we only collect anonymized data, we cannot identify your specific records without supporting details. Please include your device platform and approximate first-use date when making a request.</p>
   </div>
   <hr class="rule" />
 
   <div class="section" id="s7">
     <div class="section-header">
       <span class="section-num">07</span>
+      <h2>Children's Privacy</h2>
+    </div>
+    <p>Selah is not directed to children under 13. We do not knowingly collect personal information from children under 13. If you believe a child has provided us with information, please contact us at <a href="mailto:sophianas170707@gmail.com" style="color: var(--accent); text-decoration: none;">sophianas170707@gmail.com</a> and we will promptly delete the relevant data.</p>
+  </div>
+  <hr class="rule" />
+
+  <div class="section" id="s8">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <h2>Disclaimer</h2>
+    </div>
+    <p>Selah is provided "as is" without warranty of any kind, express or implied. We are not responsible for any loss of data or damages arising from the use of this app.</p>
+  </div>
+  <hr class="rule" />
+
+  <div class="section" id="s9">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <h2>Changes to This Policy</h2>
+    </div>
+    <p>We may update this privacy policy from time to time. Material changes will be reflected by updating the "Last updated" date and incrementing the version number. Previous versions remain accessible through the Version History above.</p>
+    <p>Your continued use of Selah after changes are published indicates acceptance of the updated policy.</p>
+  </div>
+  <hr class="rule" />
+
+  <div class="section" id="s10">
+    <div class="section-header">
+      <span class="section-num">10</span>
       <h2>Contact</h2>
     </div>
     <p>If you have any questions or concerns regarding this privacy policy, please reach out to us.</p>
@@ -322,9 +667,9 @@
   <div class="contact-card">
     <h3>Get in touch</h3>
     <p>We're happy to answer any questions about your privacy.</p>
-    <a href="mailto:sophianas170707@gmail.com">
+    <a href="mailto:selah.bible.help@gmail.com">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-      sophianas170707@gmail.com
+      selah.bible.help@gmail.com
     </a>
   </div>
 
@@ -333,6 +678,219 @@
 <footer>
   <p>&copy; 2026 <strong>Selah Bible</strong>. All rights reserved.</p>
 </footer>
+
+<!-- ──────────────────── History List Modal ──────────────────── -->
+<div class="modal-overlay" id="historyModal" onclick="closeHistoryOnOverlay(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-header-text">
+        <div class="modal-eyebrow">Archive</div>
+        <h2>Version History</h2>
+      </div>
+      <button class="modal-close" onclick="closeHistory()" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <ul class="version-list" id="versionList">
+        <!-- populated by JS -->
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ──────────────────── Archived Version Detail Modal ──────────────────── -->
+<div class="modal-overlay" id="archiveModal" onclick="closeArchiveOnOverlay(event)">
+  <div class="modal modal-large" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-header-text">
+        <div class="modal-eyebrow" id="archiveEyebrow">Archived Version</div>
+        <h2 id="archiveTitle">Privacy Policy</h2>
+      </div>
+      <button class="modal-close" onclick="closeArchive()" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body" id="archiveBody">
+      <!-- populated by JS -->
+    </div>
+  </div>
+</div>
+
+<script>
+  // ═══════════════════════════════════════════════════════════════
+  // Version Archive — historical versions of the privacy policy.
+  // To add a new historical version: push to this array with full
+  // section data. The current/live version is rendered in HTML above
+  // and represented here only as a metadata entry for the history list.
+  // ═══════════════════════════════════════════════════════════════
+  const VERSION_ARCHIVE = [
+    {
+      version: '1.1',
+      effective: 'May 9, 2026',
+      title: 'Current Version',
+      isCurrent: true,
+      summary: 'Added Diagnostics, Data Deletion, Children\u2019s Privacy, and Changes sections.'
+    },
+    {
+      version: '1.0',
+      effective: 'March 20, 2026',
+      title: 'Initial Release',
+      isCurrent: false,
+      sections: [
+        {
+          num: '01',
+          title: 'Data Storage',
+          paragraphs: [
+            'All your collections, memorization progress, and settings are stored locally on your device using SQLite. We do not have access to this data, and it is never transmitted to our servers.'
+          ]
+        },
+        {
+          num: '02',
+          title: 'Data Backup',
+          paragraphs: [
+            'You are solely responsible for your own data backup. Uninstalling the app or resetting your device will permanently delete all locally stored data. We do not provide data recovery services.'
+          ]
+        },
+        {
+          num: '03',
+          title: 'Analytics',
+          paragraphs: [
+            'We collect minimal anonymous usage data to improve the app. This includes a hashed device identifier, platform information, and aggregated learning activity summaries.',
+            'This data is fully anonymized and cannot be used to identify you personally. It is used solely for improving app performance and features.'
+          ]
+        },
+        {
+          num: '04',
+          title: 'Notifications',
+          paragraphs: [
+            'If you choose to enable push notifications, a push token is stored on our server solely for the purpose of sending you study reminders. This token is not linked to any personal information.',
+            'You can disable notifications at any time through your device Settings or within the app.'
+          ]
+        },
+        {
+          num: '05',
+          title: 'Bible Content',
+          paragraphs: [
+            'Selah uses the Berean Standard Bible (BSB), which is freely licensed for use in applications. The BSB text is provided by Bible Hub and is used in accordance with its open license terms.'
+          ]
+        },
+        {
+          num: '06',
+          title: 'Disclaimer',
+          paragraphs: [
+            'Selah is provided "as is" without warranty of any kind, express or implied. We are not responsible for any loss of data or damages arising from the use of this app.'
+          ]
+        },
+        {
+          num: '07',
+          title: 'Contact',
+          paragraphs: [
+            'If you have any questions or concerns regarding this privacy policy, please reach out to us at sophianas170707@gmail.com.'
+          ]
+        }
+      ]
+    }
+  ];
+
+  // ─────────── Render version list ───────────
+  function renderVersionList() {
+    const list = document.getElementById('versionList');
+    list.innerHTML = VERSION_ARCHIVE.map(v => `
+      <li class="version-item ${v.isCurrent ? 'current' : ''}" onclick="${v.isCurrent ? 'closeHistory()' : `openArchive('${v.version}')`}">
+        <div class="version-info">
+          <span class="version-tag">${v.isCurrent ? 'CURRENT' : 'ARCHIVED'} · v${v.version}</span>
+          <div class="version-title">${v.title}</div>
+          <div class="version-date">Effective ${v.effective}</div>
+        </div>
+        <span class="version-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </span>
+      </li>
+    `).join('');
+  }
+
+  // ─────────── History modal control ───────────
+  function openHistory() {
+    renderVersionList();
+    document.getElementById('historyModal').classList.add('active');
+    document.body.classList.add('modal-open');
+  }
+  function closeHistory() {
+    document.getElementById('historyModal').classList.remove('active');
+    document.body.classList.remove('modal-open');
+  }
+  function closeHistoryOnOverlay(e) {
+    if (e.target.id === 'historyModal') closeHistory();
+  }
+
+  // ─────────── Archive detail modal control ───────────
+  function openArchive(version) {
+    const v = VERSION_ARCHIVE.find(x => x.version === version);
+    if (!v || v.isCurrent) return;
+
+    document.getElementById('archiveEyebrow').textContent = `Archived · Version ${v.version}`;
+    document.getElementById('archiveTitle').textContent = v.title;
+
+    const body = document.getElementById('archiveBody');
+    body.innerHTML = `
+      <div class="archive-notice">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span>This is an archived version no longer in effect. The current policy supersedes this version.</span>
+      </div>
+      <div class="archive-meta">
+        <div class="archive-meta-item"><strong>Version</strong>${v.version}</div>
+        <div class="archive-meta-item"><strong>Effective</strong>${v.effective}</div>
+        <div class="archive-meta-item"><strong>Status</strong>Archived</div>
+      </div>
+      ${v.sections.map(s => `
+        <div class="archive-section">
+          <div class="archive-section-header">
+            <span class="archive-section-num">${s.num}</span>
+            <h3>${s.title}</h3>
+          </div>
+          ${s.paragraphs.map(p => `<p>${p}</p>`).join('')}
+        </div>
+      `).join('')}
+    `;
+
+    // Close history modal first if open, then open archive
+    document.getElementById('historyModal').classList.remove('active');
+    document.getElementById('archiveModal').classList.add('active');
+    document.body.classList.add('modal-open');
+  }
+  function closeArchive() {
+    document.getElementById('archiveModal').classList.remove('active');
+    document.body.classList.remove('modal-open');
+  }
+  function closeArchiveOnOverlay(e) {
+    if (e.target.id === 'archiveModal') closeArchive();
+  }
+
+  // ─────────── ESC key closes any open modal ───────────
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (document.getElementById('archiveModal').classList.contains('active')) {
+        closeArchive();
+      } else if (document.getElementById('historyModal').classList.contains('active')) {
+        closeHistory();
+      }
+    }
+  });
+</script>
 
 </body>
 </html>
